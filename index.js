@@ -99,6 +99,10 @@ const LoadComents  = async (userId) => {
 
         const Post = await fetch(`https://jsonplaceholder.typicode.com/posts/${userId}`);
         const PostInfo = await Post.json();
+
+        const User = await fetch(`https://jsonplaceholder.typicode.com/users/${userId}`);
+        const UserInfo = await User.json();
+        
         
         usersDOM.innerHTML=""
       
@@ -109,8 +113,9 @@ const LoadComents  = async (userId) => {
 
 
         ComentsDiv.innerHTML =`
-            <p>Title :${PostInfo.title}</p>
-            <p>Body :${PostInfo.body}</p>
+            <p class="author" onclick="loadUserData(${userId})">Name : ${UserInfo.name}</p>
+            <p>Title : ${PostInfo.title}</p>
+            <p>Body : ${PostInfo.body}</p>
         `
 
         userComments.forEach(comment => {
