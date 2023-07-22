@@ -1,0 +1,35 @@
+.users-container{
+    display: flex;
+    flex-wrap: wrap;
+    
+}
+
+.user{
+    cursor: pointer;
+padding-left: 10px;
+ margin: 5px;
+ border: 1px solid black;
+ width: 30%;
+}
+
+.userfullinfo{
+    padding-left: 10px;
+    margin: 5px;
+    border: 1px solid black;
+    width: 30%;
+}
+
+.user:hover{
+    box-shadow: 5px 10px black;
+}
+
+.user:active{
+    box-shadow: 5px 10px greenyellow;
+}
+
+li{
+    cursor: pointer;
+}
+li:active{
+    color: aquamarine;
+}
