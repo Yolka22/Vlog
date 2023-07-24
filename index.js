@@ -1,9 +1,18 @@
 const url = "https://jsonplaceholder.typicode.com/users";
 const usersDOM = document.getElementById('users-container');
 
+let newscounter = 0;
+
+const loadmore = document.getElementById('loadmore')
+
 const load = async () => {
 
-    usersDOM.innerHTML=""
+    loadmore.hidden = true;
+
+    newscounter = 0;
+    while (usersDOM.firstChild) {
+        usersDOM.removeChild(usersDOM.firstChild);
+      }
 
     try {
         const response = await fetch(url);
@@ -30,7 +39,7 @@ const load = async () => {
     }
 }
 
-load();
+
 
 
 const loadUserPosts = async (userId) => {
@@ -127,4 +136,49 @@ const LoadComents  = async (userId) => {
           usersDOM.appendChild(ComentsDiv);
 }
 
+const shuffleArray = (array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+
+const NewsLoad = async () =>{
+    const ResponsePosts = await fetch('https://jsonplaceholder.typicode.com/posts');
+    const Posts = await ResponsePosts.json();
+  
+    const shuffledPosts = shuffleArray(Posts);
+    return shuffledPosts;
+}
+
+
+
+const NewsDisplay = async () => {
+
+    loadmore.hidden = false;
+
+    newscounter+=5;      
+    usersDOM.innerHTML=""
+    const NewsPosts = await NewsLoad();
+  
+      for (let i = newscounter; i < newscounter+5; i++) {
+        usersDOM.innerHTML+=
+        `
+        <p class="news">${NewsPosts[i].title}</p>
+        `
+    }
+
+    loadmore.onclick = () =>{
+        for (let i = newscounter; i < newscounter+5; i++) {
+            usersDOM.innerHTML+=
+            `
+            <p class="news">${NewsPosts[i].title}</p>
+            `
+    }
+  }
+}
+  
+  load();
 document.getElementById('Home').addEventListener('click',load);
+document.getElementById('News').addEventListener('click',NewsDisplay);
