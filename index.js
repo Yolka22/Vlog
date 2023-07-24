@@ -27,7 +27,6 @@ const load = async () => {
                         <p>Name: ${element.name}</p>
                         <p>Username: ${element.username}</p>
                         <p>Email: ${element.email}</p>
-                        <hr>
                     `;
                     user.onclick = () =>{
                         loadUserData(element.id)
@@ -103,6 +102,9 @@ const loadUserData = async (id) => {
 }
 
 const LoadComents  = async (userId) => {
+
+        loadmore.hidden=true;
+
         const response = await fetch('https://jsonplaceholder.typicode.com/comments');
         const comments = await response.json();
 
@@ -156,28 +158,30 @@ const NewsLoad = async () =>{
 
 const NewsDisplay = async () => {
 
-    loadmore.hidden = false;
+  usersDOM.innerHTML=""
 
-    newscounter+=5;      
-    usersDOM.innerHTML=""
-    const NewsPosts = await NewsLoad();
-  
-      for (let i = newscounter; i < newscounter+5; i++) {
-        usersDOM.innerHTML+=
-        `
-        <p class="news">${NewsPosts[i].title}</p>
-        `
-    }
+  loadmore.hidden = false;
+  newscounter += 5;
+  const NewsPosts = await NewsLoad();
 
-    loadmore.onclick = () =>{
-        for (let i = newscounter; i < newscounter+5; i++) {
-            usersDOM.innerHTML+=
-            `
-            <p class="news">${NewsPosts[i].title}</p>
-            `
-    }
+  for (let i = newscounter - 5; i < newscounter; i++) {
+      const newsElement = document.createElement('p');
+      newsElement.className = "news";
+      newsElement.textContent = NewsPosts[i].title;
+      newsElement.onclick = () => LoadComents(NewsPosts[i].userId);
+      usersDOM.appendChild(newsElement);
   }
-}
+
+  loadmore.onclick = () => {
+      for (let i = newscounter; i < newscounter + 5; i++) {
+          const newsElement = document.createElement('p');
+          newsElement.className = "news";
+          newsElement.textContent = NewsPosts[i].title;
+          newsElement.onclick = () => LoadComents(NewsPosts[i].userId);
+          usersDOM.appendChild(newsElement);
+      }
+  };
+};
   
   load();
 document.getElementById('Home').addEventListener('click',load);
