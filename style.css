@@ -109,7 +109,8 @@ li:active{
     background-color: #219EBC;
     cursor: pointer;
     padding: 4px;
-    margin-top: 4px;
+    margin-top: 5px;
+    margin-bottom: 5px;
     width: 100%;
     border: 1px solid black;
 }
